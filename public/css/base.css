@@ -45,7 +45,7 @@ img, svg { max-width: 100%; }
 }
 .eyebrow.light { color: var(--sand); }
 
-section[id] { scroll-margin-top: 150px; } /* clears the sticky header and the anchor menu */
+section[id] { scroll-margin-top: 80px; } /* clears the sticky anchor menu */
 
 /* Scroll reveal (only when JS is on; see js/reveal.js) */
 .js .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease var(--d, 0ms), transform .7s cubic-bezier(.2, .7, .2, 1) var(--d, 0ms); }

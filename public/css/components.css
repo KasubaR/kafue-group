@@ -41,12 +41,22 @@
 .breadcrumbs a:hover { color: var(--sand); }
 .breadcrumbs li[aria-current="page"] { color: #b4bec1; }
 
-/* <x-anchor-menu>: jump links under the header */
-.anchor-menu { position: sticky; top: 85px; z-index: 40; background: var(--white); border-bottom: 1px solid #e3e8ea; }
-.anchor-menu .container { display: flex; gap: 6px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; scrollbar-width: none; }
-.anchor-menu .container::-webkit-scrollbar { display: none; }
-.anchor-menu a { flex: none; padding: 8px 16px; border-radius: 999px; font-size: 15px; font-weight: 600; color: var(--ink-2); transition: background .2s, color .2s; }
-.anchor-menu a:hover { background: var(--mist); color: var(--teal); }
+/* Chips: outlined white pills with a thin border, as in the design PDF.
+   Used by <x-anchor-menu> (jump links) and <x-chip-list> (labels). */
+.anchor-menu a, .chips li {
+    display: inline-block; padding: 9px 18px; border-radius: 999px;
+    background: var(--white); border: 1px solid #d9d2c3; color: var(--ink);
+    font-size: 14.4px; font-weight: 500; line-height: 1.3;
+    transition: background .2s, color .2s, border-color .2s, transform .2s;
+}
+.section.white .chips li { background: var(--cream); }
+
+/* <x-anchor-menu>: jump chips on the cream page background, directly under the banner (no bar behind them) */
+.anchor-menu { background: var(--cream); padding: 44px 0 0; }
+.anchor-menu .container { display: flex; flex-wrap: wrap; gap: 10px; }
+.anchor-menu a:hover, .anchor-menu a:focus-visible { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+.anchor-menu a:active { transform: scale(.97); }
+.anchor-menu + .section { padding-top: 52px; }
 
 /* <x-product-card> */
 .card {
@@ -156,7 +166,6 @@
 
 /* <x-chip-list> */
 .chips { list-style: none; margin: 0 0 36px; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
-.chips li { padding: 9px 18px; border-radius: 999px; background: var(--mist); color: var(--teal); font-size: 14.4px; font-weight: 600; }
 
 /* <x-spec-table> */
 .spec-table-wrap { overflow-x: auto; background: var(--white); border-radius: var(--radius); box-shadow: 0 1px 0 rgba(20, 32, 38, .06); }

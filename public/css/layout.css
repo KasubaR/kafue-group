@@ -4,12 +4,9 @@
 .site-header {
     background: var(--ink);
     color: var(--cream);
-    position: sticky;
-    top: 0;
+    position: relative; /* scrolls away with the page; keeps the mobile menu above the content */
     z-index: 50;
-    transition: box-shadow .25s, background .25s;
 }
-.site-header.scrolled { box-shadow: 0 6px 24px rgba(0, 0, 0, .35); background: rgba(20, 32, 38, .96); backdrop-filter: blur(8px); }
 .site-header .container { display: flex; align-items: center; justify-content: space-between; height: 85px; }
 .site-header .logo img { height: 42.5px; width: auto; display: block; }
 

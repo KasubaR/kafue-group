@@ -42,7 +42,6 @@
 </a>
 
 {{-- Global scripts (every page) --}}
-<script src="{{ asset('js/header.js') }}" defer></script>
 <script src="{{ asset('js/reveal.js') }}" defer></script>
 <script src="{{ asset('js/menu.js') }}" defer></script>
 <script src="{{ asset('js/form-controls.js') }}" defer></script>
