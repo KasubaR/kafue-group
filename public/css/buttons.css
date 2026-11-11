@@ -1,0 +1,30 @@
+/* Buttons (components/button.blade.php) */
+
+.btn {
+    display: inline-block;
+    padding: 15px 27.5px;
+    border-radius: 10px;
+    font-size: 16.2px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-family: inherit;
+    transition: filter .15s, background .15s, transform .15s;
+}
+.btn:hover { transform: translateY(-1px); }
+
+/* Primary: teal, same as the "Why Kafue Group" band */
+.btn-primary { background: var(--teal); color: var(--white); }
+.btn-primary:hover { background: var(--teal-light); }
+
+/* Dark: black button, for use on teal bands */
+.btn-dark { background: #0b1215; color: var(--white); }
+.btn-dark:hover { background: #1b2a31; }
+
+/* Outline: for light backgrounds */
+.btn-outline { border-color: var(--teal); color: var(--teal); }
+.btn-outline:hover { background: var(--teal); color: var(--white); }
+
+/* Ghost: outline on dark backgrounds */
+.btn-ghost { border-color: var(--ink-2); color: var(--cream); }
+.btn-ghost:hover { background: var(--ink-2); }

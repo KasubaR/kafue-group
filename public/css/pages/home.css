@@ -1,0 +1,47 @@
+/* Home page: hero, "why Kafue" band */
+
+/* Hero */
+.hero {
+    position: relative;
+    overflow: hidden;
+    color: var(--cream);
+    padding: 82.5px 0 97.5px;
+    background:
+        linear-gradient(100deg, rgba(20, 32, 38, .92) 25%, rgba(14, 77, 92, .45) 100%),
+        url('../../images/hero.jpg') center / cover no-repeat,
+        radial-gradient(circle at 80% 40%, #0e4d5c 0%, #142026 65%);
+}
+.hero .container { position: relative; display: grid; grid-template-columns: 1.35fr 1fr; gap: 50px; align-items: center; }
+.hero h1 { font-weight: 800; font-size: clamp(42.5px, 5vw, 60px); letter-spacing: -.01em; margin-bottom: 35px; }
+.hero p.lead { font-size: 18.8px; color: #cfd6d8; max-width: 550px; margin-bottom: 37.5px; line-height: 1.75; }
+.hero .actions { display: flex; gap: 15px; flex-wrap: wrap; }
+.hero .mark { display: flex; justify-content: center; }
+.hero .mark img { width: min(100%, 460px); filter: drop-shadow(0 20px 50px rgba(0, 0, 0, .45)); animation: floaty 7s ease-in-out infinite; }
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@media (max-width: 800px) { .hero .container { grid-template-columns: 1fr; } .hero .mark { display: none; } }
+
+/* Hero entrance */
+.hero .eyebrow, .hero h1, .hero .lead, .hero .actions, .hero .mark {
+    animation: rise .8s cubic-bezier(.2, .7, .2, 1) both;
+}
+.hero h1 { animation-delay: .1s; }
+.hero .lead { animation-delay: .22s; }
+.hero .actions { animation-delay: .34s; }
+.hero .mark { animation-delay: .3s; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+
+/* Why Kafue Group band (<x-check-item>) */
+.why { background: var(--cream); padding: 20px 0 100px; }
+.why-card {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: start;
+    background: linear-gradient(135deg, var(--teal) 0%, #0b3f4c 100%);
+    color: var(--cream); border-radius: 28px; padding: 76px 72px;
+}
+.why h2 { font-weight: 800; font-size: clamp(32.5px, 3.6vw, 40px); margin-bottom: 25px; }
+.why p.lead { font-size: 16.2px; line-height: 1.75; color: #d5e3e6; max-width: 550px; }
+.why ul { list-style: none; margin: 17.5px 0 0; padding: 0; display: grid; gap: 20px; }
+.why li { display: flex; gap: 17.5px; font-size: 15.6px; line-height: 1.55; color: #e6eef0; }
+.why li svg { flex: none; width: 20px; height: 20px; margin-top: 2px; fill: none; stroke: var(--sand); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.why li strong { color: var(--white); font-weight: 600; }
+@media (max-width: 800px) { .why-card { grid-template-columns: 1fr; gap: 40px; padding: 48px 32px; border-radius: 22px; } }
+@media (max-width: 480px) { .why-card { padding: 38px 24px; } }

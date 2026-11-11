@@ -1,0 +1,78 @@
+/* Site chrome: header, navigation, footer, floating call button */
+
+/* Header */
+.site-header {
+    background: var(--ink);
+    color: var(--cream);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    transition: box-shadow .25s, background .25s;
+}
+.site-header.scrolled { box-shadow: 0 6px 24px rgba(0, 0, 0, .35); background: rgba(20, 32, 38, .96); backdrop-filter: blur(8px); }
+.site-header .container { display: flex; align-items: center; justify-content: space-between; height: 85px; }
+.site-header .logo img { height: 42.5px; width: auto; display: block; }
+
+.nav { display: flex; align-items: center; gap: 32.5px; font-size: 15.6px; }
+.nav a:not(.btn):hover { color: var(--sand); }
+.nav .btn { padding: 12.5px 20px; }
+.nav-phone {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 42px; height: 42px; border-radius: 50%; color: var(--sand);
+    border: 1px solid var(--ink-2); transition: background .2s, color .2s, border-color .2s;
+}
+.site-header .nav a.nav-phone:hover { background: var(--sand); color: var(--ink); border-color: var(--sand); } /* beats the generic .nav link hover colour */
+.nav-phone svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.nav a:not(.btn):not(.nav-phone) { position: relative; padding: 4px 0; }
+.nav a:not(.btn):not(.nav-phone)::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px;
+    background: var(--sand); transform: scaleX(0); transform-origin: left; transition: transform .25s;
+}
+.nav a.active::after, .nav a:not(.btn):not(.nav-phone):hover::after { transform: scaleX(1); }
+.nav a.active { color: var(--white); }
+@media (max-width: 760px) { .nav-phone { display: none; } } /* phones use the floating Call us button */
+
+/* Mobile menu toggle (js/menu.js) */
+.nav-toggle {
+    display: none; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 10px;
+    background: transparent; cursor: pointer; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+}
+.nav-toggle span { display: block; width: 22px; height: 2px; background: var(--cream); border-radius: 2px; transition: transform .25s, opacity .2s; }
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 760px) {
+    .site-header .container { position: relative; }
+    .nav-toggle { display: flex; }
+    .nav {
+        display: none; position: absolute; top: 100%; left: 0; right: 0;
+        flex-direction: column; align-items: stretch; gap: 0;
+        background: var(--ink); padding: 8px 25px 22px; box-shadow: 0 16px 30px rgba(0, 0, 0, .35);
+    }
+    .nav.open { display: flex; }
+    .nav a:not(.btn) { padding: 14px 0; border-bottom: 1px solid var(--ink-2); }
+    .nav a:not(.btn):not(.nav-phone)::after { display: none; }
+    .nav .btn { margin-top: 18px; text-align: center; }
+}
+
+/* Floating call button (mobile) */
+.float-call {
+    display: none; position: fixed; right: 16px; bottom: 16px; z-index: 60; gap: 8px; align-items: center;
+    background: var(--teal); color: var(--white); font-weight: 700; font-size: 14px;
+    padding: 12px 18px; border-radius: 999px; box-shadow: 0 8px 24px rgba(0, 0, 0, .3);
+}
+.float-call svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+@media (max-width: 760px) { .float-call { display: inline-flex; } }
+
+/* Footer */
+.site-footer { background: var(--ink); color: var(--cream); padding: 62.5px 0 75px; }
+.site-footer .container { display: flex; justify-content: space-between; gap: 50px; flex-wrap: wrap; }
+.site-footer .logo img { height: 42.5px; display: block; margin-bottom: 25px; }
+.site-footer .about { font-size: 15px; color: #cfd6d8; max-width: 312.5px; line-height: 1.7; }
+.site-footer .about.small { margin-top: 16px; font-size: 14px; color: #b4bec1; }
+.site-footer .about a:hover { color: var(--sand); }
+.footer-cols { display: flex; gap: 60px; }
+.footer-cols h4 { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 15px; }
+.footer-cols a { display: block; font-size: 15px; color: #b4bec1; margin-bottom: 10px; }
+.footer-cols a:hover { color: var(--sand); }

@@ -1,0 +1,10 @@
+/* Contact section: details column + quote form layout */
+
+.contact { background: var(--cream); padding: 97.5px 0 100px; }
+.contact .container { display: grid; grid-template-columns: 1fr 2fr; gap: 57.5px; align-items: start; }
+.contact h2 { font-weight: 800; font-size: 42.5px; margin-bottom: 27.5px; }
+.contact p.lead { font-size: 16.2px; color: #3f4c52; line-height: 1.7; margin-bottom: 32.5px; }
+.contact dl { margin: 0; font-size: 15px; }
+.contact dt { font-weight: 700; margin-top: 15px; font-size: 15.6px; }
+.contact dd { margin: 0; color: #3f4c52; }
+@media (max-width: 860px) { .contact .container { grid-template-columns: 1fr; } }
