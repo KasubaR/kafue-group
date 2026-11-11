@@ -227,6 +227,213 @@
         update();
     }
 
+    /* ------------------------------ Calendar ------------------------------ */
+    var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function toISO(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+    function fromISO(s) {
+        var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || '');
+        return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null;
+    }
+    function addDays(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+    function sameDay(a, b) { return !!a && !!b && toISO(a) === toISO(b); }
+    function human(d) { return d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear(); }
+
+    function enhanceDate(input) {
+        if (input.dataset.enhanced) return;
+        input.dataset.enhanced = '1';
+
+        var id = input.id || 'date-' + (++uid);
+        var today = fromISO(toISO(new Date()));
+        var min = fromISO(input.getAttribute('min')) || today;
+        if (!input.getAttribute('min')) input.setAttribute('min', toISO(min));
+
+        var wrap = document.createElement('div');
+        wrap.className = 'datepicker';
+        input.parentNode.insertBefore(wrap, input);
+        wrap.appendChild(input);
+        input.tabIndex = -1;
+        input.setAttribute('aria-hidden', 'true');
+
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'date-btn';
+        btn.setAttribute('aria-haspopup', 'dialog');
+        btn.setAttribute('aria-expanded', 'false');
+        var label = document.querySelector('label[for="' + id + '"]');
+        if (label) {
+            label.id = label.id || id + '-label';
+            btn.id = id + '-btn';
+            btn.setAttribute('aria-labelledby', label.id + ' ' + btn.id);
+        }
+
+        var pop = document.createElement('div');
+        pop.className = 'cal';
+        pop.setAttribute('role', 'dialog');
+        pop.setAttribute('aria-label', 'Choose a date');
+        pop.hidden = true;
+
+        var head = document.createElement('div');
+        head.className = 'cal-head';
+        var prev = document.createElement('button');
+        prev.type = 'button'; prev.className = 'cal-nav'; prev.setAttribute('aria-label', 'Previous month');
+        prev.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 6-6 6 6 6"/></svg>';
+        var next = document.createElement('button');
+        next.type = 'button'; next.className = 'cal-nav'; next.setAttribute('aria-label', 'Next month');
+        next.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 6 6 6-6 6"/></svg>';
+        var title = document.createElement('div');
+        title.className = 'cal-title';
+        title.setAttribute('aria-live', 'polite');
+        head.appendChild(prev); head.appendChild(title); head.appendChild(next);
+
+        var grid = document.createElement('div');
+        grid.className = 'cal-grid';
+        grid.setAttribute('role', 'grid');
+
+        var foot = document.createElement('div');
+        foot.className = 'cal-foot';
+        var clearBtn = document.createElement('button');
+        clearBtn.type = 'button'; clearBtn.textContent = 'Clear';
+        var todayBtn = document.createElement('button');
+        todayBtn.type = 'button'; todayBtn.textContent = 'Today';
+        foot.appendChild(clearBtn); foot.appendChild(todayBtn);
+
+        pop.appendChild(head); pop.appendChild(grid); pop.appendChild(foot);
+        wrap.appendChild(btn);
+        wrap.appendChild(pop);
+
+        var focusDate = null;
+
+        function selected() { return fromISO(input.value); }
+        function isOpen() { return !pop.hidden; }
+        function clamp(d) { return d < min ? min : d; }
+
+        function sync() {
+            var d = selected();
+            btn.textContent = d ? human(d) : 'Select a date';
+            btn.classList.toggle('empty', !d);
+        }
+
+        function render(moveFocus) {
+            var sel = selected();
+            var first = new Date(focusDate.getFullYear(), focusDate.getMonth(), 1);
+            title.textContent = MONTHS[first.getMonth()] + ' ' + first.getFullYear();
+            prev.disabled = addDays(first, -1) < min;
+
+            grid.textContent = '';
+            DAYS.forEach(function (n) {
+                var h = document.createElement('div');
+                h.className = 'cal-dow'; h.textContent = n; h.setAttribute('role', 'columnheader');
+                grid.appendChild(h);
+            });
+
+            var lead = (first.getDay() + 6) % 7; // Monday first
+            for (var i = 0; i < lead; i++) grid.appendChild(document.createElement('span'));
+
+            var count = new Date(first.getFullYear(), first.getMonth() + 1, 0).getDate();
+            for (var day = 1; day <= count; day++) {
+                var d = new Date(first.getFullYear(), first.getMonth(), day);
+                var b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'cal-day';
+                b.textContent = day;
+                b.dataset.date = toISO(d);
+                b.setAttribute('role', 'gridcell');
+                b.setAttribute('aria-label', human(d));
+                b.tabIndex = sameDay(d, focusDate) ? 0 : -1;
+                if (d < min) b.disabled = true;
+                if (sameDay(d, today)) b.classList.add('today');
+                if (sameDay(d, sel)) { b.classList.add('selected'); b.setAttribute('aria-selected', 'true'); }
+                grid.appendChild(b);
+            }
+            todayBtn.disabled = today < min;
+            if (moveFocus) {
+                var el = grid.querySelector('[tabindex="0"]');
+                if (el) el.focus();
+            }
+        }
+
+        function open() {
+            if (isOpen()) return;
+            focusDate = clamp(selected() || min);
+            var rect = btn.getBoundingClientRect();
+            var below = window.innerHeight - rect.bottom;
+            wrap.classList.toggle('up', below < 380 && rect.top > below);
+            pop.hidden = false;
+            btn.setAttribute('aria-expanded', 'true');
+            render(true);
+        }
+
+        function close(refocus) {
+            if (!isOpen()) return;
+            pop.hidden = true;
+            btn.setAttribute('aria-expanded', 'false');
+            if (refocus) btn.focus();
+        }
+
+        function choose(d) {
+            input.value = d ? toISO(d) : '';
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+            sync();
+            close(true);
+        }
+
+        function move(d) {
+            focusDate = clamp(d);
+            render(true);
+        }
+
+        btn.addEventListener('click', function () { isOpen() ? close(false) : open(); });
+        btn.addEventListener('keydown', function (e) {
+            if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !isOpen()) { e.preventDefault(); open(); }
+        });
+
+        prev.addEventListener('click', function () {
+            move(new Date(focusDate.getFullYear(), focusDate.getMonth() - 1, 1));
+        });
+        next.addEventListener('click', function () {
+            move(new Date(focusDate.getFullYear(), focusDate.getMonth() + 1, 1));
+        });
+        todayBtn.addEventListener('click', function () { choose(today); });
+        clearBtn.addEventListener('click', function () { choose(null); });
+
+        grid.addEventListener('click', function (e) {
+            var b = e.target.closest('.cal-day');
+            if (b && !b.disabled) choose(fromISO(b.dataset.date));
+        });
+
+        pop.addEventListener('keydown', function (e) {
+            var k = e.key;
+            if (k === 'Escape') { e.preventDefault(); close(true); return; }
+            if (k === 'Tab') { close(false); return; }
+            if (!e.target.classList.contains('cal-day')) return;
+            var d = fromISO(e.target.dataset.date), n = null;
+            if (k === 'ArrowLeft') n = addDays(d, -1);
+            else if (k === 'ArrowRight') n = addDays(d, 1);
+            else if (k === 'ArrowUp') n = addDays(d, -7);
+            else if (k === 'ArrowDown') n = addDays(d, 7);
+            else if (k === 'Home') n = addDays(d, -((d.getDay() + 6) % 7));
+            else if (k === 'End') n = addDays(d, 6 - ((d.getDay() + 6) % 7));
+            else if (k === 'PageUp') n = new Date(d.getFullYear(), d.getMonth() - 1, d.getDate());
+            else if (k === 'PageDown') n = new Date(d.getFullYear(), d.getMonth() + 1, d.getDate());
+            if (n) { e.preventDefault(); move(n); }
+        });
+
+        document.addEventListener('click', function (e) {
+            if (!wrap.contains(e.target)) close(false);
+        });
+
+        // Clicking the <label> lands on the custom button.
+        input.addEventListener('focus', function () { btn.focus(); });
+        input.addEventListener('change', sync);
+        if (input.form) input.form.addEventListener('reset', function () { setTimeout(sync, 0); });
+
+        sync();
+    }
+
     document.querySelectorAll('.field select').forEach(enhanceSelect);
+    document.querySelectorAll('.field input[type="date"]').forEach(enhanceDate);
     document.querySelectorAll('[data-dropzone]').forEach(enhanceDropzone);
 })();
