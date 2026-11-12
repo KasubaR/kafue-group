@@ -14,6 +14,7 @@
             <x-footer-links title="Get in touch" :links="[
                 [route('contact'), 'Request a quote'],
                 [config('site.phone_href'), config('site.phone')],
+                ['mailto:'.config('site.email'), config('site.email')],
             ]" />
         </div>
     </div>

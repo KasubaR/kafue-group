@@ -50,7 +50,7 @@
     </div>
 
     <div class="form-foot">
-        <small>You can also email your BOM or spares list as a spreadsheet.</small>
+        <small>You can also email your BOM or spares list as a spreadsheet to <a href="mailto:{{ config('site.email') }}">{{ config('site.email') }}</a>.</small>
         <x-button type="submit">Submit request</x-button>
     </div>
 </form>

@@ -59,6 +59,15 @@ class PagesTest extends TestCase
             ->assertSee('15 South Ridge', false);
     }
 
+    public function test_company_email_is_shown_on_every_page(): void
+    {
+        $this->assertSame('info@kafuegroup.co.za', config('site.email'));
+
+        foreach (['/', '/products', '/services', '/about', '/contact'] as $uri) {
+            $this->get($uri)->assertSee('mailto:info@kafuegroup.co.za', false);
+        }
+    }
+
     public function test_contact_preselects_category_from_query(): void
     {
         $this->get('/contact?category='.urlencode('Safety and PPE'))

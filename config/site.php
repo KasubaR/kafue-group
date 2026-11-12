@@ -46,6 +46,7 @@ return [
         'types' => ['pdf', 'xls', 'xlsx', 'csv', 'doc', 'docx', 'png', 'jpg', 'jpeg'],
     ],
 
+    'email' => 'info@kafuegroup.co.za',
     'phone' => '+27 60 204 6268',
     'phone_href' => 'tel:+27602046268',
 ];
