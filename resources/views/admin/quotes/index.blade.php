@@ -22,23 +22,26 @@
         <div class="admin-table-wrap">
             <table class="admin-table">
                 <thead>
-                    <tr><th>Received</th><th>Name</th><th>Category</th><th>Project</th><th>Status</th></tr>
+                    <tr><th>Received</th><th>Name</th><th>Category</th><th>Project</th><th>Status</th><th><span class="sr-only">Actions</span></th></tr>
                 </thead>
                 <tbody>
                     @foreach ($quotes as $quote)
                         <tr>
-                            <td data-label="Received">{{ $quote->created_at->format('j M Y, H:i') }}</td>
-                            <td data-label="Name">
-                                <a href="{{ route('admin.quotes.show', $quote) }}"><strong>{{ $quote->name }}</strong></a>
+                            <td class="c-received" data-label="Received">{{ $quote->created_at->format('j M Y, H:i') }}</td>
+                            <td class="c-name">
+                                <strong>{{ $quote->name }}</strong>
                                 <small>{{ $quote->company }}</small>
                             </td>
-                            <td data-label="Category">{{ $quote->category }}</td>
-                            <td data-label="Project">
+                            <td class="c-cat" data-label="Category">{{ $quote->category }}</td>
+                            <td class="c-proj" data-label="Project">
                                 {{ $quote->project ?: '—' }}
                                 @if ($quote->attachment_path)<small>Has attachment</small>@endif
                             </td>
-                            <td data-label="Status">
+                            <td class="c-status">
                                 <span @class(['pill', 'done' => $quote->handled_at])>{{ $quote->handled_at ? 'Handled' : 'New' }}</span>
+                            </td>
+                            <td class="col-action">
+                                <a class="btn btn-outline btn-sm" href="{{ route('admin.quotes.show', $quote) }}" aria-label="View request from {{ $quote->name }}">View</a>
                             </td>
                         </tr>
                     @endforeach
