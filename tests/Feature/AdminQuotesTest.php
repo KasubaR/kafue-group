@@ -118,6 +118,15 @@ class AdminQuotesTest extends TestCase
             ->assertDownload('cutting-list.pdf');
     }
 
+    public function test_notification_email_links_to_the_admin_page(): void
+    {
+        $quote = $this->quote();
+
+        (new \App\Mail\QuoteRequestReceived($quote))
+            ->assertSeeInText(route('admin.quotes.show', $quote))
+            ->assertSeeInText('Thabo Mokoena');
+    }
+
     public function test_missing_attachment_is_a_404(): void
     {
         $quote = $this->quote();

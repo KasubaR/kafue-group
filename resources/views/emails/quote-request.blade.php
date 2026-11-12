@@ -22,3 +22,4 @@ Items, quantities and delivery:
 --
 Received {{ $quote->created_at->format('j F Y H:i') }} (request #{{ $quote->id }}).
 Reply to this email to answer the customer directly.
+Open in the admin: {{ route('admin.quotes.show', $quote) }}

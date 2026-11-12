@@ -39,18 +39,21 @@ DB_PASSWORD=<database password>
 # No queue worker on shared hosting: run jobs immediately
 QUEUE_CONNECTION=sync
 
-# Quote request notifications. Leave empty until the addresses are confirmed:
+# Quote request notifications. Leave empty to turn email off:
 # requests are still saved to the database, but no email is sent.
-MAIL_SALES_TO=
-MAIL_TOOLS_TO=
+MAIL_SALES_TO=info@kafuegroup.co.za
+MAIL_TOOLS_TO=info@kafuegroup.co.za
 
-# Real outgoing mail (use the SMTP details from the hosting control panel)
+# Outgoing mail through the hosting mailbox (cPanel > Email Accounts > Connect Devices).
+# Port 465 uses SSL/TLS, which Laravel calls the "smtps" scheme.
 MAIL_MAILER=smtp
-MAIL_HOST=
-MAIL_PORT=587
-MAIL_USERNAME=
-MAIL_PASSWORD=
-MAIL_FROM_ADDRESS="no-reply@kafuegroup.co.za"
+MAIL_SCHEME=smtps
+MAIL_HOST=kafuegroup.co.za
+MAIL_PORT=465
+MAIL_USERNAME=info@kafuegroup.co.za
+MAIL_PASSWORD=the-mailbox-password
+# Send from the same mailbox you log in with, or messages are likely to land in spam.
+MAIL_FROM_ADDRESS="info@kafuegroup.co.za"
 MAIL_FROM_NAME="Kafue Group"
 ```
 
