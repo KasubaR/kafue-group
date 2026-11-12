@@ -9,7 +9,7 @@ class QuoteRequest extends Model
     protected $fillable = [
         'category', 'name', 'company', 'email', 'phone', 'project',
         'site_country', 'required_by', 'details',
-        'attachment_path', 'attachment_name', 'emailed_at',
+        'attachment_path', 'attachment_name', 'emailed_at', 'handled_at',
     ];
 
     /**
@@ -32,6 +32,7 @@ class QuoteRequest extends Model
         return [
             'required_by' => 'date',
             'emailed_at' => 'datetime',
+            'handled_at' => 'datetime',
         ];
     }
 }

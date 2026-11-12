@@ -86,6 +86,18 @@ php artisan config:cache && php artisan route:cache && php artisan view:cache
 
 Run `php artisan config:clear` before `config:cache` if a changed `.env` value does not seem to apply.
 
+## Admin: reading quote requests
+
+Requests are managed at `https://kafuegroup.co.za/admin` (not linked from the public site, and marked noindex).
+Create each person's login from the Terminal. It asks for the password (at least 12 characters), which is never stored in the code:
+
+```bash
+php artisan admin:create person@kafuegroup.co.za --name="Their Name"
+```
+
+Run the same command again for an existing email to reset that person's password. The admin lists new and handled
+requests, searches them, shows the full details, downloads attachments and marks a request as handled.
+
 ## Notes
 
 - **Quote requests** are stored in the `quote_requests` table. Uploaded files go to `storage/app/private/quote-attachments`
